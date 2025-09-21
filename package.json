@@ -5,9 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "node --watch index.js",
-    "start": "node index.js",
-    "deploy": "sh deploy.sh"
+    "dev": "node --watch src/index.js"
   },
   "repository": {
     "type": "git",
@@ -22,6 +20,7 @@
   },
   "homepage": "https://github.com/Jhonneg/nodeOps#readme",
   "dependencies": {
+    "dotenv": "^17.2.2",
     "express": "^5.1.0"
   }
 }
