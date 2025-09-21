@@ -1,0 +1,10 @@
+@baseUrl = http://localhost:3000
+
+
+# Health check
+# @name healthCheck
+GET {{baseUrl}}/health
+###
+GET {{baseUrl}}/api
+###
+POST {{baseUrl}}/api/auth/sign-in
