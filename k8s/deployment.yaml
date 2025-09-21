@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: nodeops-api
-          image: jhonneguerra/nodeops-api:latest
+          image: jhonneguerra/nodeops-api:v1.1
           ports:
             - containerPort: 3000
           env:

@@ -12,8 +12,8 @@ app.get("/", (req, res) => {
   });
 });
 
-app.get("readyz", (req, res) => res.status(200).send("ready"));
-app.get("healthz", (req, res) => res.status(200).send("ok"));
+app.get("/readyz", (req, res) => res.status(200).send("ready"));
+app.get("/healthz", (req, res) => res.status(200).send("ok"));
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}!`);
