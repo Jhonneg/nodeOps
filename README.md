@@ -1,1 +1,1 @@
-# repertory for devops stuff
+# repository for devops stuff
