@@ -13,15 +13,51 @@ export async function hashPassword(password) {
   }
 }
 
-export async function createUser({ name, email, password, role = 'user' }) {
+export async function comparePassword(plainPassword, hashedPassword) {
   try {
-    const existingUser = db
+    return await bcrypt.compare(plainPassword, hashedPassword);
+  } catch (e) {
+    logger.error(`Error comparing password: ${e}`);
+    throw new Error('Error comparing password');
+  }
+}
+
+export async function authenticateUser({ email, password }) {
+  try {
+    const [existingUser] = await db
       .select()
       .from(users)
       .where(eq(users.email, email))
       .limit(1);
 
-    if (existingUser.length > 0) throw new Error('User already exists');
+    if (!existingUser) {
+      throw new Error('Invalid credentials');
+    }
+
+    const isPasswordValid = await comparePassword(password, existingUser.password);
+    
+    if (!isPasswordValid) {
+      throw new Error('Invalid credentials');
+    }
+
+    const { password: _, ...userWithoutPassword } = existingUser;
+    logger.info(`User ${existingUser.email} authenticated successfully`);
+    return userWithoutPassword;
+  } catch (e) {
+    logger.error(`Error authenticating user: ${e}`);
+    throw e;
+  }
+}
+
+export async function createUser({ name, email, password, role = 'user' }) {
+  try {
+    const existingUser = await db
+      .select()
+      .from(users)
+      .where(eq(users.email, email))
+      .limit(1);
+
+    if (existingUser.length > 0) throw new Error('User with this email already exists');
 
     const password_hash = await hashPassword(password);
 
