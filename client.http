@@ -7,4 +7,9 @@ GET {{baseUrl}}/health
 ###
 GET {{baseUrl}}/api
 ###
-POST {{baseUrl}}/api/auth/sign-in
+POST {{baseUrl}}/api/auth/sign-up
+Content-Type: application/x-www-form-urlencoded
+
+name=Jhonne
+&email=jonee4339@hotmail.com
+&password=123123
