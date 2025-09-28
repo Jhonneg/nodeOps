@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "imports": {
     "#config/*": "./src/config/*",
     "#controllers/*": "./src/controllers/*",
@@ -31,13 +32,13 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "module",
   "bugs": {
     "url": "https://github.com/Jhonneg/nodeOps/issues"
   },
   "homepage": "https://github.com/Jhonneg/nodeOps#readme",
   "dependencies": {
     "@neondatabase/serverless": "^1.0.1",
+    "bcryptjs": "^3.0.2",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^17.2.2",
@@ -51,7 +52,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.36.0",
-    "drizzle-kit": "^0.31.4",
+    "drizzle-kit": "^0.18.1",
     "eslint": "^9.36.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",
