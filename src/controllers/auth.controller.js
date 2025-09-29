@@ -1,13 +1,13 @@
 import logger from '#config/logger.js';
-import { createUser, authenticateUser } from '#services/auth.service.js';
-import { cookies } from '#utils/cookies.js';
+import { signupSchema, signInSchema } from '#validations/auth.validation.js';
 import { formatValidationError } from '#utils/format.js';
+import { createUser, authenticateUser } from '#services/auth.service.js';
 import { jwttoken } from '#utils/jwt.js';
-import { signUpSchema, signInSchema } from '#validations/auth.validation.js';
+import { cookies } from '#utils/cookies.js';
 
-export async function signup(req, res, next) {
+export const signup = async (req, res, next) => {
   try {
-    const validationResult = signUpSchema.safeParse(req.body);
+    const validationResult = signupSchema.safeParse(req.body);
 
     if (!validationResult.success) {
       return res.status(400).json({
@@ -15,6 +15,7 @@ export async function signup(req, res, next) {
         details: formatValidationError(validationResult.error),
       });
     }
+
     const { name, email, password, role } = validationResult.data;
 
     const user = await createUser({ name, email, password, role });
@@ -27,7 +28,7 @@ export async function signup(req, res, next) {
 
     cookies.set(res, 'token', token);
 
-    logger.info(`User registered seccessfully :${email}`);
+    logger.info(`User registered successfully: ${email}`);
     res.status(201).json({
       message: 'User registered',
       user: {
@@ -39,14 +40,16 @@ export async function signup(req, res, next) {
     });
   } catch (e) {
     logger.error('Signup error', e);
+
     if (e.message === 'User with this email already exists') {
-      return res.status(409).json({ error: 'Email already exists' });
+      return res.status(409).json({ error: 'Email already exist' });
     }
+
     next(e);
   }
-}
+};
 
-export async function signin(req, res, next) {
+export const signin = async (req, res, next) => {
   try {
     const validationResult = signInSchema.safeParse(req.body);
 
@@ -80,24 +83,26 @@ export async function signin(req, res, next) {
       },
     });
   } catch (e) {
-    logger.error('Signin error', e);
-    if (e.message === 'Invalid credentials') {
-      return res.status(401).json({ error: 'Invalid email or password' });
+    logger.error('Sign in error', e);
+
+    if (e.message === 'User not found' || e.message === 'Invalid password') {
+      return res.status(401).json({ error: 'Invalid credentials' });
     }
+
     next(e);
   }
-}
+};
 
-export async function signout(req, res, next) {
+export const signout = async (req, res, next) => {
   try {
     cookies.clear(res, 'token');
-    
+
     logger.info('User signed out successfully');
     res.status(200).json({
       message: 'User signed out successfully',
     });
   } catch (e) {
-    logger.error('Signout error', e);
+    logger.error('Sign out error', e);
     next(e);
   }
-}
+};

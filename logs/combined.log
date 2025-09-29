@@ -571,3 +571,31 @@
 {"level":"info","message":"::1 - - [29/Sep/2025:08:58:01 +0000] \"GET /api/users HTTP/1.1\" 500 953 \"-\" \"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36\"","service":"nodeops"}
 {"level":"info","message":"Getting users...","service":"nodeops"}
 {"level":"info","message":"::ffff:172.21.0.1 - - [29/Sep/2025:08:58:34 +0000] \"GET /api/users HTTP/1.1\" 200 661 \"-\" \"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36\"","service":"nodeops"}
+{"level":"info","message":"Getting users...","service":"nodeops"}
+{"level":"info","message":"::ffff:172.21.0.1 - - [29/Sep/2025:09:20:44 +0000] \"GET /api/users HTTP/1.1\" 304 - \"-\" \"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36\"","service":"nodeops"}
+{"level":"info","message":"::ffff:172.21.0.1 - - [29/Sep/2025:09:23:11 +0000] \"GET /api/users HTTP/1.1\" 401 72 \"-\" \"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36\"","service":"nodeops"}
+{"level":"info","message":"::ffff:172.21.0.1 - - [29/Sep/2025:09:25:14 +0000] \"POST /api/auth/sign-up HTTP/1.1\" 400 91 \"-\" \"Thunder Client (https://www.thunderclient.com)\"","service":"nodeops"}
+{"level":"error","message":"Error creating the user: Error: Failed query: select \"id\", \"name\", \"email\", \"password\", \"role\", \"created_at\", \"updated_at\" from \"users\" where \"users\".\"email\" = $1 limit $2\nparams: admin@admin.admin,1","service":"nodeops"}
+{"cause":{"name":"NeonDbError"},"level":"error","message":"Signup error Failed query: select \"id\", \"name\", \"email\", \"password\", \"role\", \"created_at\", \"updated_at\" from \"users\" where \"users\".\"email\" = $1 limit $2\nparams: admin@admin.admin,1","params":["admin@admin.admin",1],"query":"select \"id\", \"name\", \"email\", \"password\", \"role\", \"created_at\", \"updated_at\" from \"users\" where \"users\".\"email\" = $1 limit $2","service":"nodeops","stack":"Error: Failed query: select \"id\", \"name\", \"email\", \"password\", \"role\", \"created_at\", \"updated_at\" from \"users\" where \"users\".\"email\" = $1 limit $2\nparams: admin@admin.admin,1\n    at NeonHttpPreparedQuery.queryWithCache (file:///app/node_modules/drizzle-orm/pg-core/session.js:41:15)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async NeonHttpPreparedQuery.execute (file:///app/node_modules/drizzle-orm/neon-http/session.js:45:20)\n    at async createUser (file:///app/src/services/auth.service.js:27:26)\n    at async signup (file:///app/src/controllers/auth.controller.js:21:18)"}
+{"level":"info","message":"::ffff:172.21.0.1 - - [29/Sep/2025:09:25:58 +0000] \"POST /api/auth/sign-up HTTP/1.1\" 500 916 \"-\" \"Thunder Client (https://www.thunderclient.com)\"","service":"nodeops"}
+{"level":"info","message":"::ffff:172.21.0.1 - - [29/Sep/2025:09:26:32 +0000] \"GET /api/users HTTP/1.1\" 401 72 \"-\" \"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36\"","service":"nodeops"}
+{"level":"info","message":"::ffff:172.21.0.1 - - [29/Sep/2025:09:28:15 +0000] \"GET /api/users HTTP/1.1\" 401 72 \"-\" \"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36\"","service":"nodeops"}
+{"level":"info","message":"::ffff:172.21.0.1 - - [29/Sep/2025:09:29:59 +0000] \"GET /api/users HTTP/1.1\" 401 72 \"-\" \"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36\"","service":"nodeops"}
+{"level":"info","message":"User admin@admin.admin created successfully","service":"nodeops"}
+{"level":"info","message":"User registered successfully: admin@admin.admin","service":"nodeops"}
+{"level":"info","message":"::ffff:172.21.0.1 - - [29/Sep/2025:09:30:10 +0000] \"POST /api/auth/sign-up HTTP/1.1\" 201 112 \"-\" \"Thunder Client (https://www.thunderclient.com)\"","service":"nodeops"}
+{"level":"info","message":"::ffff:172.21.0.1 - - [29/Sep/2025:09:32:46 +0000] \"GET /api/users HTTP/1.1\" 401 72 \"-\" \"Thunder Client (https://www.thunderclient.com)\"","service":"nodeops"}
+{"level":"info","message":"User admin@admin.admin authenticated successfully","service":"nodeops"}
+{"level":"info","message":"User signed in successfully: admin@admin.admin","service":"nodeops"}
+{"level":"info","message":"::ffff:172.21.0.1 - - [29/Sep/2025:09:33:48 +0000] \"POST /api/auth/sign-in HTTP/1.1\" 200 124 \"-\" \"Thunder Client (https://www.thunderclient.com)\"","service":"nodeops"}
+{"level":"info","message":"User authenticated: admin@admin.admin (admin)","service":"nodeops"}
+{"level":"info","message":"Getting users...","service":"nodeops"}
+{"level":"info","message":"::ffff:172.21.0.1 - - [29/Sep/2025:09:34:10 +0000] \"GET /api/users HTTP/1.1\" 200 817 \"-\" \"Thunder Client (https://www.thunderclient.com)\"","service":"nodeops"}
+{"level":"info","message":"User authenticated: admin@admin.admin (admin)","service":"nodeops"}
+{"level":"info","message":"Deleting user: 7","service":"nodeops"}
+{"level":"info","message":"User cuckcuckcuck@cuck.cuck deleted successfully","service":"nodeops"}
+{"level":"info","message":"User cuckcuckcuck@cuck.cuck deleted successfully","service":"nodeops"}
+{"level":"info","message":"::ffff:172.21.0.1 - - [29/Sep/2025:09:34:34 +0000] \"DELETE /api/users/7 HTTP/1.1\" 200 122 \"-\" \"Thunder Client (https://www.thunderclient.com)\"","service":"nodeops"}
+{"level":"info","message":"User authenticated: admin@admin.admin (admin)","service":"nodeops"}
+{"level":"info","message":"Getting users...","service":"nodeops"}
+{"level":"info","message":"::ffff:172.21.0.1 - - [29/Sep/2025:09:34:42 +0000] \"GET /api/users/ HTTP/1.1\" 200 661 \"-\" \"Thunder Client (https://www.thunderclient.com)\"","service":"nodeops"}

@@ -8,7 +8,7 @@ export async function securityMiddleware(req, res, next) {
     if (process.env.NODE_ENV === 'development') {
       return next();
     }
-    
+
     // Skip Arcjet protection for health check endpoints
     if (req.path === '/health' || req.path === '/api/health') {
       return next();
