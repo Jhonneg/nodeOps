@@ -1,12 +1,13 @@
-version: "3.8"
-
 services:
   # Neon Local Proxy for Development
   neon-local:
-    image: neondatabase/neon:latest
+    image: postgres:15-alpine
     container_name: nodeops-neon-local
-    env_file:
-      - .env.development
+    environment:
+      - POSTGRES_DB=nodeops_dev
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_HOST_AUTH_METHOD=trust
     ports:
       - "5432:5432"
     volumes:
@@ -26,7 +27,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-      target: production
+      target: development
     container_name: nodeops-app-dev
     depends_on:
       neon-local:
@@ -46,7 +47,7 @@ services:
       - nodeops-network
     restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:3000/health || exit 1"]
+      test: ["CMD-SHELL", "node -e \"require('http').get('http://localhost:3000/health', (r) => { process.exit(r.statusCode === 200 ? 0 : 1) })\""]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -69,7 +70,7 @@ services:
     networks:
       - nodeops-network
     profiles:
-      - tools # Only start with: docker-compose --profile tools up
+      - tools  # Only start with: docker-compose --profile tools up
 
 volumes:
   neon_dev_data:

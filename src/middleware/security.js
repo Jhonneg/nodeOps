@@ -4,6 +4,11 @@ import { slidingWindow } from '@arcjet/node';
 
 export async function securityMiddleware(req, res, next) {
   try {
+    // Skip Arcjet protection for health check endpoints
+    if (req.path === '/health' || req.path === '/api/health') {
+      return next();
+    }
+
     const role = req.user?.role || 'guest';
 
     let limit;
