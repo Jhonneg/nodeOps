@@ -1,20 +1,17 @@
 services:
   # Neon Local Proxy for Development
   neon-local:
-    image: postgres:15-alpine
+    image: neondatabase/neon_local:latest
     container_name: nodeops-neon-local
-    environment:
-      - POSTGRES_DB=nodeops_dev
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_HOST_AUTH_METHOD=trust
+    env_file:
+      - .env.development
     ports:
       - "5432:5432"
     volumes:
       - neon_dev_data:/var/lib/postgresql/data
       - ./init-scripts:/docker-entrypoint-initdb.d
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d nodeops_dev"]
+      test: ["CMD", "pg_isready", "-h", "localhost", "-p", "5432", "-U", "neon"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -34,9 +31,6 @@ services:
         condition: service_healthy
     env_file:
       - .env.development
-    environment:
-      - DATABASE_URL=postgresql://postgres:postgres@neon-local:5432/nodeops_dev
-      - NODE_ENV=development
     ports:
       - "3000:3000"
     volumes:
@@ -46,39 +40,24 @@ services:
     networks:
       - nodeops-network
     restart: unless-stopped
+    stdin_open: true
+    tty: true
     healthcheck:
-      test: ["CMD-SHELL", "node -e \"require('http').get('http://localhost:3000/health', (r) => { process.exit(r.statusCode === 200 ? 0 : 1) })\""]
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "const http = require('http'); const req = http.request({hostname: 'localhost', port: 5173, path: '/health'}, (res) => process.exit(res.statusCode === 200 ? 0 : 1)); req.on('error', () => process.exit(1)); req.end();",
+        ]
       interval: 30s
       timeout: 10s
       retries: 3
       start_period: 40s
-
-  # Optional: Database Administration Tool
-  db-admin:
-    image: dpage/pgadmin4:latest
-    container_name: nodeops-pgadmin-dev
-    environment:
-      - PGADMIN_DEFAULT_EMAIL=admin@nodeops.local
-      - PGADMIN_DEFAULT_PASSWORD=admin123
-      - PGADMIN_CONFIG_SERVER_MODE=False
-    ports:
-      - "8080:80"
-    depends_on:
-      - neon-local
-    volumes:
-      - pgadmin_dev_data:/var/lib/pgadmin
-    networks:
-      - nodeops-network
-    profiles:
-      - tools  # Only start with: docker-compose --profile tools up
+networks:
+  nodeops-network:
+    driver: bridge
 
 volumes:
   neon_dev_data:
     driver: local
-  pgadmin_dev_data:
-    driver: local
-
-networks:
-  nodeops-network:
-    driver: bridge
-    name: nodeops-dev-network
